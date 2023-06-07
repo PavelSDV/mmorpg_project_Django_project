@@ -89,4 +89,10 @@ Posts
     {% else %}
         <h2>Нет постов!</h2>
     {% endif %}
+
+        <p>
+            <a href="{% url 'add' %}">Добавить новое объявление</a>
+{#            <a href="{% url 'search' %}">Найти статью</a>#}
+        </p>
+
 {% endblock content %}
