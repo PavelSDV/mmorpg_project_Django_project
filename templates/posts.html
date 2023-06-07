@@ -5,9 +5,53 @@ Posts
 {% endblock title %}
 
 {% block content %}
+    <h1>Все объявления MMORPG</h1>
+    <h3>{{ value1|default_if_none:"Сегодня:" }} {{ time_now|date:'M d Y' }}</h3>
+    <hr>
+
     {% if posts %}
-        <h1>Все объявления MMORPG</h1>
-        {{ posts }}
+        <table>
+            <tr>
+                <td>
+                    Дата
+                </td>
+                <td>
+                    Заголовок
+                </td>
+                <td>
+                    Текст
+                </td>
+                <td>
+                    Категория
+                </td>
+                <td>
+                    Автор
+                </td>
+            </tr>
+        {% for post in posts %}
+            <tr>
+                <td>
+                    {{ post.dataCreation|date:'d.m.Y' }}
+                </td>
+                <td>
+                    {{ post.title }}
+                </td>
+                <td>
+                    {{ post.contentText|truncatechars:50 }}
+                    {{ post.contentImage }}
+                    {{ post.contentFile }}
+                </td>
+                <td>
+                    {{ post.categoryType }}
+                </td>
+                <td>
+                    {{ post.user }}
+                </td>
+            </tr>
+        {% endfor %}
+
+        </table>
+
     {% else %}
         <h2>Нет постов!</h2>
     {% endif %}
