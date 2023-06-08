@@ -12,11 +12,11 @@ Posts
 
     {% if posts %}
         <!-- Перед таблицей добавим форму для поиска -->
-        <form method="GET">
-            {{ filter.form }} <!-- Форму от фильтров за нас сделает Django. А вот кнопку, увы, придётся делать самому -->
-            <input type="submit" value="Найти">
-        </form>
-        <hr>
+{#        <form method="GET">#}
+{#            {{ filter.form }} <!-- Форму от фильтров за нас сделает Django. А вот кнопку, увы, придётся делать самому -->#}
+{#            <input type="submit" value="Найти">#}
+{#        </form>#}
+{#        <hr>#}
         <table>
             <tr>
                 <td>
@@ -35,7 +35,7 @@ Posts
                     Автор
                 </td>
             </tr>
-        {% for post in filter.qs %}
+        {% for post in posts %}
             <tr>
                 <td>
                     {{ post.dataCreation|date:'d.m.Y' }}
@@ -92,7 +92,7 @@ Posts
 
         <p>
             <a href="{% url 'create' %}">Добавить новое объявление</a>
-{#            <a href="{% url 'search' %}">Найти статью</a>#}
+            <a href="{% url 'search' %}">Найти объявление</a>
         </p>
 
 {% endblock content %}
