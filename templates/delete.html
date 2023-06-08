@@ -1,0 +1,21 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block title %} Delete {% endblock title %}
+
+{% block content %}
+    <h2>Вы действительно хотите удалить данную статью?</h2>
+
+{#        <a href="{% url 'account_logout' %}">Выход</a>#}
+
+    <h1>{{ post.title|censor }}</h1>
+    <p>{{ post.contentText|censor }}</p>
+    <p>{{ post.dataCreation|date:'d-m-Y H:i' }}</p>
+
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="submit" value="подтвердить">
+    </form>
+
+{% endblock content %}

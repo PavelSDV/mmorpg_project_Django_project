@@ -41,7 +41,7 @@ Posts
                     {{ post.dataCreation|date:'d.m.Y' }}
                 </td>
                 <td>
-                    {{ post.title|censor }}
+                    <a href="{% url 'post' post.id %}">{{ post.title|censor }}</a>
                 </td>
                 <td>
                     {{ post.contentText|truncatechars:50|censor }}
@@ -53,6 +53,10 @@ Posts
                 </td>
                 <td>
                     {{ post.user }}
+                </td>
+                <td>
+                    <a href="{% url 'create' post.id %}"><u>Редактировать</u></a>
+                    <a href="{% url 'delete' post.id %}">Удалить</a>
                 </td>
             </tr>
         {% endfor %}
