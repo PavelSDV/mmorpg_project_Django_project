@@ -7,6 +7,7 @@ Post
 {% endblock title %}
 
 {% block content %}
+
     <h1>{{ post.title|censor }}</h1>
     <p>{{ post.contentText|censor }}</p>
     {% if post.contentImage %}
@@ -16,4 +17,22 @@ Post
         <a href="{{ post.contentFile.url }}">Скачать файл</a>
     {% endif %}
     <p>{{ post.dataCreation|date:'d-m-Y H:i' }}</p>
-{% endblock content %}
+
+  <h2>Отклики</h2>
+  <ul>
+    {% for response in responses %}
+      <li>{{ response.contentResponse }}</li>
+    {% empty %}
+      <li>Нет откликов</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Добавить отклик</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form }}
+{#    {{ form.as_p }}#}
+    <input type="submit" value="Добавить отклик">
+  </form>
+{% endblock %}
+

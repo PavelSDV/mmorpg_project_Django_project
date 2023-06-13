@@ -1,6 +1,7 @@
 # from django.forms import ModelForm, BooleanField # Импортируем true-false поле
-from django.forms import ModelForm, BooleanField, FileInput, ClearableFileInput
-from .models import Post
+from django import forms
+from django.forms import ModelForm, BooleanField, FileInput
+from .models import Post, Response
 
 # Создаём модельную форму
 class PostForm(ModelForm):
@@ -11,10 +12,10 @@ class PostForm(ModelForm):
         widgets = {
             'contentImage': FileInput(attrs={'accept': '.jpg'}),  # Указываем, что это поле для загрузки изображений
             'contentFile': FileInput(attrs={'accept': '.pdf,.doc,.docx,.txt'}),
-            # Указываем, что это поле для загрузки файлов
         }
 
-        # widgets = {
-        #     'contentImage': FileInput(attrs={'multiple': True}),
-        #     'contentFile': FileInput(attrs={'multiple': True}),
-        # }
+# class ResponseForm(forms.ModelForm):
+class ResponseForm(ModelForm):
+    class Meta:
+        model = Response
+        fields = ['contentResponse']
