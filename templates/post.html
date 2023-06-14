@@ -21,7 +21,7 @@ Post
   <h2>Отклики</h2>
   <ul>
     {% for response in responses %}
-      <li>{{ response.contentResponse }}</li>
+      <li>{{ response.contentResponse }} {{ response.userResponse }}</li>
     {% empty %}
       <li>Нет откликов</li>
     {% endfor %}
