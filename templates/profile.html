@@ -8,44 +8,54 @@ Responses
 
 {% block content %}
 
-    {% if responses %}
-  <h2>Мои отклики:</h2>
-  <ul>
-    {% for response in responses %}
-      <li> {{ response.contentResponse }}</li>
-    {% endfor %}
-  </ul>
+
+{% if responses %}
+  <h2>Отклики на объявления пользователя {{ request.user.username }}:</h2>
+
+      <p>Вводить дату в формате год-месяц-день: хххх-xx-xx</p>
+    <!-- Перед таблицей добавим форму для поиска -->
+    <form method="GET">
+        {{ response_filter.form }} <!-- Форму от фильтров за нас сделает Django. А вот кнопку, увы, придётся делать самому -->
+        <input type="submit" value="Найти">
+    </form>
+
+     <table>
+            <tr>
+                <td>
+                    Дата
+                </td>
+                <td>
+                    Заголовок объявления
+                </td>
+                <td>
+                    Текст отклика
+                </td>
+                <td>
+                    Пользователь
+                </td>
+            </tr>
+        {% for response in response_filter.qs %}
+            <tr>
+                <td>
+                    {{ response.dataResponse|date:'d.m.Y' }}
+                </td>
+                <td>
+                    {{ response.postsResponse.title }}
+                </td>
+                <td>
+                    {{ response.contentResponse }}
+                </td>
+                <td>
+                    {{ response.userResponse }}
+                </td>
+
+            </tr>
+        {% endfor %}
+
+        </table>
+
 {% else %}
   <p>У вас пока нет откликов.</p>
 {% endif %}
-
-
-{##}
-{#    <h1>{{ post.title|censor }}</h1>#}
-{#    <p>{{ post.contentText|censor }}</p>#}
-{#    {% if post.contentImage %}#}
-{#        <img width="200" src="{{ post.contentImage.url }}" alt="Изображение">#}
-{#    {% endif %}#}
-{#    {% if post.contentFile %}#}
-{#        <a href="{{ post.contentFile.url }}">Скачать файл</a>#}
-{#    {% endif %}#}
-{#    <p>{{ post.dataCreation|date:'d-m-Y H:i' }}</p>#}
-{##}
-{#  <h2>Отклики</h2>#}
-{#  <ul>#}
-{#    {% for response in responses %}#}
-{#      <li>{{ response.contentResponse }}</li>#}
-{#    {% empty %}#}
-{#      <li>Нет откликов</li>#}
-{#    {% endfor %}#}
-{#  </ul>#}
-{##}
-{#  <h2>Добавить отклик</h2>#}
-{#  <form method="POST">#}
-{#    {% csrf_token %}#}
-{#    {{ form }}#}
-{#    {{ form.as_p }}#}
-{#    <input type="submit" value="Добавить отклик">#}
-{#  </form>#}
 
 {% endblock %}
