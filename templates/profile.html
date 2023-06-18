@@ -48,7 +48,14 @@ Responses
                 <td>
                     {{ response.userResponse }}
                 </td>
-
+                <td>
+                    {% if response.accepted %}
+                        Accepted
+                    {% else %}
+                        <a href="{% url 'accept_response' pk=response.pk %}">Accept</a>
+                    {% endif %}
+                        <a href="{% url 'delete_response' pk=response.pk %}">Delete</a>
+                </td>
             </tr>
         {% endfor %}
 
