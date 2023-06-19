@@ -1,0 +1,23 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block title %}
+New Post
+{% endblock title %}
+
+{% block content %}
+
+    <p>Отклик!!!!</p>
+
+{#<h3>Здравствуй, {{ username }}!. Новое объявление в категории:{{ post.categoryType }}</h3>#}
+{##}
+{#    <p>#}
+{#        автор:#}
+{#    <strong>{{ post.user }}</strong>#}
+{#    </p>#}
+{#    <a href="http://localhost:8000{% url 'post' post.id %}"><р>{{ post.title|censor }}</р></a>#}
+{#    <p>#}
+{#    {{ post.email_preview|censor }}#}
+{#    </p>#}
+
+{% endblock content %}

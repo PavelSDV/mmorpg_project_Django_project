@@ -1,18 +1,17 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver  # импортируем нужный декоратор
-from .models import Post
+from .models import Post, Response
 from django.template.loader import render_to_string
 from django.core.mail.message import EmailMultiAlternatives
 from django.contrib.auth.models import User
 from django.urls import reverse
 
-# def get_user():
+# def get_user(): # если нужно все email вставить в поле кому
 #     user_email = []
 #     for user in User.objects.all():
 #         user_email.append(user.email)
 #     return user_email
 
-# в декоратор передаётся первым аргументом сигнал, на который будет реагировать эта функция, и в отправители надо передать также модель
 @receiver(post_save, sender=Post)
 def notify_user_post(sender, instance, created, **kwargs):
 
@@ -26,7 +25,7 @@ def notify_user_post(sender, instance, created, **kwargs):
 
         for user in users:
             # user_email = get_user()
-            # post_url = reverse('post', args=[instance.id])
+            # post_url = reverse('post', args=[instance.id]) # можно и так получить url поста
             context = {
                 'username': user.username,
                 # 'post_url': post_url,
@@ -44,4 +43,29 @@ def notify_user_post(sender, instance, created, **kwargs):
             )
 
             msg.attach_alternative(html, 'text/html', )
+            try:
+                msg.send()
+                print('Уведомление отправлено успешно')
+            except Exception as e:
+                print(f'Ошибка при отправке уведомления: {str(e)}')
+
+
+@receiver(post_save, sender=Response)
+def notify_user_response(sender, instance, created, **kwargs):
+    if created:
+        post_title = instance.postsResponse.title
+        user_email = instance.postsResponse.user.email
+
+        subject = 'Отклик на ваше объявление'
+        text_content = f'На ваше объявление "{post_title}" поступил отклик.'
+
+        msg = EmailMultiAlternatives(subject, text_content, 'newspaperss@yandex.ru', [user_email])
+
+        html_content = '<p>На ваше объявление "<b>{}</b>" поступил отклик.</p>'.format(post_title)
+        msg.attach_alternative(html_content, "text/html")
+
+        try:
             msg.send()
+            print('Уведомление отправлено успешно')
+        except Exception as e:
+            print(f'Ошибка при отправке уведомления: {str(e)}')
