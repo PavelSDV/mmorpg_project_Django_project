@@ -7,7 +7,12 @@
 
 <!-- -----------               -->
 {% block content %}
-
+    <style>
+        table, th, td {
+            border: 1px solid #dee2e6;
+            border-collapse: collapse;
+        }
+    </style>
     <h2>Поиск объявлений</h2>
 
     <p>Вводить дату в формате год-месяц-день: хххх-xx-xx</p>
@@ -40,12 +45,16 @@
                     {{ post.dataCreation|date:'d.m.Y' }}
                 </td>
                 <td>
-                    {{ post.title|censor }}
+                    <a href="{% url 'post' post.id %}">{{ post.title|censor }}</a>
                 </td>
                 <td>
                     {{ post.contentText|truncatechars:50|censor }}
-                    {{ post.contentImage }}
-                    {{ post.contentFile }}
+                    {% if post.contentImage %}
+                        <img width="200" src="{{ post.contentImage.url }}" alt="Изображение">
+                    {% endif %}
+                    {% if post.contentFile %}
+                        <a href="{{ post.contentFile.url }}">Скачать файл</a>
+                    {% endif %}
                 </td>
                 <td>
                     {{ post.categoryType }}

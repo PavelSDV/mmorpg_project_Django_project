@@ -56,7 +56,7 @@ def notify_user_response(sender, instance, created, **kwargs):
         post_title = instance.postsResponse.title
         user_email = instance.postsResponse.user.email
 
-        subject = 'Отклик на ваше объявление'
+        subject = 'Response to your post'
         text_content = f'На ваше объявление "{post_title}" поступил отклик.'
 
         msg = EmailMultiAlternatives(subject, text_content, 'newspaperss@yandex.ru', [user_email])

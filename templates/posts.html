@@ -5,10 +5,16 @@
 Posts
 {% endblock title %}
 
+
 {% block content %}
+    <style>
+        table, th, td {
+            border: 1px solid #dee2e6;
+            border-collapse: collapse;
+        }
+    </style>
     <h1>Все объявления</h1>
     <h3>{{ value1|default_if_none:"Сегодня:" }} {{ time_now|date:'M d Y' }}</h3>
-    <hr>
 
 {#   {% if user.is_authenticated %}#}
 {#        <p>Вы аутентифицированы, {{ request.user.username }} </p>#}
@@ -23,7 +29,7 @@ Posts
 
 
     {% if posts %}
-        <hr>
+
         <!-- Перед таблицей добавим форму для поиска -->
 {#        <form method="GET">#}
 {#            {{ filter.form }} <!-- Форму от фильтров за нас сделает Django. А вот кнопку, увы, придётся делать самому -->#}
@@ -74,6 +80,7 @@ Posts
                 <td>
                     <a href="{% url 'create' post.id %}"><u>Редактировать</u></a>
                     <a href="{% url 'delete' post.id %}">Удалить</a>
+                </td>
             </tr>
         {% endfor %}
 
