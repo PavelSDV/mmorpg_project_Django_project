@@ -1,0 +1,18 @@
+{#{% extends 'flatpages/default.html' %}#}
+{% load custom_filters %}
+
+{% block title %} Newsweek {% endblock title %}
+
+{% block content %}
+<h1>Новые объявления за прошедшую неделю</h1>
+    {{ posts }}
+
+{#    {% if posts %}#}
+{#        {% for post in posts %}#}
+{#            <p>автор: {{ post.author.authorUser }}<a href="http://localhost:8002{% url 'new' post.id %}"><р2>Статья: {{ post.title|censor }}</р2></a></p>#}
+{#            <p>Аннотация: {{ post.email_preview|censor }}</p>#}
+{#        {% endfor %}#}
+{#    {% else %}#}
+{#        <h2>No Posts</h2>#}
+{#    {% endif %}#}
+{% endblock content %}
