@@ -15,6 +15,7 @@ from django.core.mail import EmailMultiAlternatives
 import datetime
 from django.utils import timezone
 from postsapp.models import Post
+from django.contrib.auth.models import User
 
 logger = logging.getLogger(__name__)
 
@@ -22,35 +23,32 @@ logger = logging.getLogger(__name__)
 def notify_new_post_weekly():
     template = 'weekly_mail.html'
 
-    week = timezone.now() - datetime.timedelta(days=1) # здесь за прошедшие 7 дней, в любое время, вроде
-    posts = Post.objects.filter(dataCreation__gte=week)
+    week = timezone.now() - datetime.timedelta(days=7)
 
-    # Создаем словарь, где ключом является пользователь, а значением - список его постов за неделю
-    users_posts = {}
-    for post in posts:
-        user_email = post.user.email
-        if user_email not in users_posts:
-            users_posts[user_email] = []
-        users_posts[user_email].append(post)
+    users = User.objects.all() # Получаем всех зарегистрированных пользователей
 
-    # Проходимся по словарю и отправляем по одному письму каждому пользователю
-    for user_email, user_posts in users_posts.items():
-        email_subject = 'News of the Week'
-        html = render_to_string(
-            template_name=template,
-            context={
-                'posts': user_posts,
-            },
-        )
-        msg = EmailMultiAlternatives(
-            subject=email_subject,
-            body='',
-            from_email='newspaperss@yandex.ru',
-            to=[user_email],
-        )
+    for user in users:
 
-        msg.attach_alternative(html, 'text/html')
-        msg.send()
+        posts = Post.objects.filter(dataCreation__gte=week) # Получаем все посты за прошедшую неделю
+
+        if posts.exists():
+            email_subject = 'News of the Week'
+            html = render_to_string(
+                template_name=template,
+                context={
+                    'posts': posts,
+                },
+            )
+            msg = EmailMultiAlternatives(
+                subject=email_subject,
+                body='',
+                from_email='newspaperss@yandex.ru',
+                to=[user.email],
+            )
+
+            msg.attach_alternative(html, 'text/html')
+            msg.send()
+
 
 # функция, которая будет удалять неактуальные задачи
 @util.close_old_connections
