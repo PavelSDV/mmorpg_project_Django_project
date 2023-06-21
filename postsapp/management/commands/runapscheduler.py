@@ -67,7 +67,7 @@ class Command(BaseCommand):
         # добавляем работу нашему задачнику
         scheduler.add_job(
             notify_new_post_weekly,
-            trigger=CronTrigger(second="*/10"),   # каждые 10 сек для проверки, ниже по понедельникам 10-00
+            trigger=CronTrigger(second="*/10"),   # каждые 10 сек для проверки, ниже по понедельникам в 10-00
             # trigger=CronTrigger(
             #     day_of_week="mon", hour="10", minute="00"
             # ),
